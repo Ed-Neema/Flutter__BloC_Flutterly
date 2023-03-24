@@ -50,70 +50,68 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: BlocListener<CounterCubit, CounterState>(
-        listener: (context, state) {
-          if (state.wasIncremented == true) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Incremented!"),
-              duration: Duration(milliseconds: 300),
-            ));
-          } else if (state.wasIncremented == false) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Decremented!"),
-              duration: Duration(milliseconds: 300),
-            ));
-          }
-          // TODO: implement listener
-        },
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              BlocBuilder<CounterCubit, CounterState>(
-                builder: (context, state) {
-                  if (state.counterValue < 0) {
-                    return Text(
-                      'NEGATIVE COUNTER VALUE: ${state.counterValue.toString()}',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    );
-                  } else if (state.counterValue % 2 == 0) {
-                    return Text(
-                      'EVEN COUNTER VALUE: ${state.counterValue.toString()}',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    );
-                  } else {
-                    return Text(
-                      'COUNTER VALUE: ${state.counterValue.toString()}',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    );
-                  }
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FloatingActionButton(
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).increment();
-                      // context.bloc<CounterCubit>(context).decrement();
-                    },
-                    tooltip: "Increment",
-                    child: Icon(Icons.add),
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).decrement();
-                    },
-                    tooltip: "Decrement",
-                    child: Icon(Icons.remove),
-                  ),
-                ],
-              )
-            ],
-          ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            BlocConsumer<CounterCubit, CounterState>(
+              listener: (context, state) {
+                if (state.wasIncremented == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Incremented!"),
+                    duration: Duration(milliseconds: 300),
+                  ));
+                } else if (state.wasIncremented == false) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Decremented!"),
+                    duration: Duration(milliseconds: 300),
+                  ));
+                }
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                if (state.counterValue < 0) {
+                  return Text(
+                    'NEGATIVE COUNTER VALUE: ${state.counterValue.toString()}',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  );
+                } else if (state.counterValue % 2 == 0) {
+                  return Text(
+                    'EVEN COUNTER VALUE: ${state.counterValue.toString()}',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  );
+                } else {
+                  return Text(
+                    'COUNTER VALUE: ${state.counterValue.toString()}',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  );
+                }
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).increment();
+                    // context.bloc<CounterCubit>(context).decrement();
+                  },
+                  tooltip: "Increment",
+                  child: Icon(Icons.add),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).decrement();
+                  },
+                  tooltip: "Decrement",
+                  child: Icon(Icons.remove),
+                ),
+              ],
+            )
+          ],
         ),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
